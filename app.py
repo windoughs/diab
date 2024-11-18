@@ -64,9 +64,9 @@ def get_user_input():
 
 user_data = get_user_input()
 
-# Data Summary with greenish styling
+# Data Summary
 st.markdown("<h2 style='color: #28a745;'>Health Data Overview</h2>", unsafe_allow_html=True)
-st.dataframe(user_data.style.set_properties({'background-color': '#f5f5f5', 'color': '#333', 'border-color': '#28a745'}))
+st.dataframe(user_data)  # Removed Pandas Styler for Streamlit compatibility
 
 # Split the data
 x = df.drop(['Outcome'], axis=1)
