@@ -1,40 +1,47 @@
 import streamlit as st
 import pandas as pd
-import distutils.core
 from sklearn.metrics import accuracy_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 
+# Load the dataset
 df = pd.read_csv(r"./diabetes.csv")
 
-# New header design with gradient
+# Updated CSS for the header with smoother gradients and refined styles
 st.markdown("""
     <style>
         .header {
-            font-size: 45px;
+            font-size: 42px;
             font-family: 'Arial Black', sans-serif;
             text-align: left;
-            background: -webkit-linear-gradient(left, #ff5e5e, #ffaa00);
+            background: linear-gradient(to right, #FF6F61, #FFB74D);
             -webkit-background-clip: text;
             color: transparent;
+            margin-bottom: 0.5em;
         }
         .sub-header {
             font-size: 20px;
             font-family: 'Arial', sans-serif;
-            color: #505050;
+            color: #606060;
+            margin-bottom: 1.5em;
         }
         .highlight {
             font-size: 18px;
-            color: #ff4b4b;
+            color: #D32F2F;
             font-weight: bold;
+            margin-top: 1em;
+        }
+        .divider {
+            border-top: 2px solid #FF7043;
+            margin: 1.5em 0;
         }
     </style>
     <h1 class="header">Diabetes Risk Checker</h1>
     <p class="sub-header">Find out if you're at risk based on your health information.</p>
-    <hr>
+    <div class="divider"></div>
 """, unsafe_allow_html=True)
 
-# Create a cleaner sidebar
+# Improved sidebar design with cleaner and more modern styles
 st.sidebar.title("🩺 Patient Health Information")
 st.sidebar.write("Please enter your health data below:")
 
@@ -64,9 +71,13 @@ def get_user_input():
 
 user_data = get_user_input()
 
-# Data Summary with new styling
-st.markdown("<h2 style='color: #ff6b6b;'>Health Data Overview</h2>", unsafe_allow_html=True)
-st.dataframe(user_data.style.set_properties({'background-color': '#f5f5f5', 'color': '#333', 'border-color': '#ff5e5e'}))
+# Data Summary with improved color and border styles
+st.markdown("<h2 style='color: #FF7043;'>Health Data Overview</h2>", unsafe_allow_html=True)
+st.dataframe(user_data.style.set_properties({
+    'background-color': '#FAFAFA',
+    'color': '#333333',
+    'border-color': '#FF7043'
+}))
 
 # Split the data
 x = df.drop(['Outcome'], axis=1)
@@ -77,25 +88,29 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_
 rf = RandomForestClassifier()
 rf.fit(x_train, y_train)
 
-# Button styles and prediction
+# Enhanced button styles for a modern look
 st.markdown("""
     <style>
         .btn-primary {
-            background-color: #ff5e5e;
+            background-color: #FF6F61;
             color: white;
             font-size: 18px;
-            border-radius: 5px;
-            padding: 10px;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease-in-out;
         }
         .btn-primary:hover {
-            background-color: #ff4040;
+            background-color: #E64A19;
             color: white;
         }
         .btn-secondary {
-            background-color: #505050;
+            background-color: #757575;
             color: white;
             font-size: 16px;
-            padding: 8px;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
         }
     </style>
 """, unsafe_allow_html=True)
@@ -110,14 +125,14 @@ if st.button('🔮 Check My Risk', key="primary", help="Click to predict diabete
     
     prediction = rf.predict(user_data)
     
-    st.markdown("<hr>", unsafe_allow_html=True)
-    st.markdown("<h2 style='color: #ff5e5e;'>Prediction Result</h2>", unsafe_allow_html=True)
-    result = 'You are not diabetic.' if prediction[0] == 0 else 'You are **at risk of diabetes.'
+    st.markdown("<div class='divider'></div>", unsafe_allow_html=True)
+    st.markdown("<h2 style='color: #FF7043;'>Prediction Result</h2>", unsafe_allow_html=True)
+    result = 'You are not diabetic.' if prediction[0] == 0 else 'You are **at risk of diabetes**.'
     st.markdown(f"<p class='highlight'>{result}</p>", unsafe_allow_html=True)
     
     # Display model accuracy
     accuracy = accuracy_score(y_test, rf.predict(x_test)) * 100
-    st.markdown(f"<p style='color: #505050; font-size: 18px;'>Model Accuracy: {accuracy:.2f}%</p>", unsafe_allow_html=True)
+    st.markdown(f"<p style='color: #606060; font-size: 18px;'>Model Accuracy: {accuracy:.2f}%</p>", unsafe_allow_html=True)
 
 else:
     st.markdown("<h3 style='text-align: center;'>👈 Enter your data and click 'Check My Risk'</h3>", unsafe_allow_html=True)
