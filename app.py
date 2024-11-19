@@ -37,56 +37,58 @@ st.markdown("""
             border: none;
             border-top: 2px solid #8bc34a;
         }
+        .form-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
     </style>
     <div class="header">🩺 Diabetes Risk Checker</div>
     <div class="sub-header">Enter your health details to analyze your diabetes risk.</div>
     <hr>
 """, unsafe_allow_html=True)
 
-# Sidebar inputs with a refined design
-st.sidebar.title("📝 Patient Information")
-st.sidebar.markdown("""
-    <style>
-        .sidebar .sidebar-content {
-            background-color: #f7f8f9;
-        }
-        .stSidebar {
-            background-color: #e1e5ea;
-        }
-    </style>
-""", unsafe_allow_html=True)
+# Input form container
+st.markdown("<div class='form-container'>", unsafe_allow_html=True)
+st.markdown("<h3 style='color: #0c4b33;'>🔍 Enter Your Health Information Below:</h3>", unsafe_allow_html=True)
 
-st.sidebar.header("🔍 Enter Your Health Details:")
+# Collect user inputs in a form-like layout
+col1, col2 = st.columns(2)
 
-def get_user_input():
-    pregnancies = st.sidebar.number_input('Pregnancies', min_value=0, max_value=17, value=3, step=1)
-    bp = st.sidebar.number_input('Blood Pressure (mm Hg)', min_value=0, max_value=122, value=70, step=1)
-    bmi = st.sidebar.number_input('BMI (Body Mass Index)', min_value=0.0, max_value=67.0, value=20.0, step=0.1)
-    glucose = st.sidebar.number_input('Glucose Level (mg/dL)', min_value=0, max_value=200, value=120, step=1)
-    skinthickness = st.sidebar.number_input('Skin Thickness (mm)', min_value=0, max_value=100, value=20, step=1)
-    dpf = st.sidebar.number_input('Diabetes Pedigree Function', min_value=0.0, max_value=2.4, value=0.47, step=0.01)
-    insulin = st.sidebar.number_input('Insulin Level (IU/mL)', min_value=0, max_value=846, value=79, step=1)
-    age = st.sidebar.slider('Age (years)', min_value=21, max_value=88, value=33)
+with col1:
+    pregnancies = st.number_input('Pregnancies', min_value=0, max_value=17, value=3, step=1)
+    glucose = st.number_input('Glucose Level (mg/dL)', min_value=0, max_value=200, value=120, step=1)
+    bp = st.number_input('Blood Pressure (mm Hg)', min_value=0, max_value=122, value=70, step=1)
+    skinthickness = st.number_input('Skin Thickness (mm)', min_value=0, max_value=100, value=20, step=1)
 
-    user_data = {
-        'Pregnancies': pregnancies,
-        'Glucose': glucose,
-        'BloodPressure': bp,
-        'SkinThickness': skinthickness,
-        'Insulin': insulin,
-        'BMI': bmi,
-        'DiabetesPedigreeFunction': dpf,
-        'Age': age
-    }
+with col2:
+    insulin = st.number_input('Insulin Level (IU/mL)', min_value=0, max_value=846, value=79, step=1)
+    bmi = st.number_input('BMI (Body Mass Index)', min_value=0.0, max_value=67.0, value=20.0, step=0.1)
+    dpf = st.number_input('Diabetes Pedigree Function', min_value=0.0, max_value=2.4, value=0.47, step=0.01)
+    age = st.slider('Age (years)', min_value=21, max_value=88, value=33)
 
-    features = pd.DataFrame(user_data, index=[0])
-    return features
+st.markdown("</div>", unsafe_allow_html=True)
 
-user_data = get_user_input()
+# Combine inputs into a dataframe
+user_data = {
+    'Pregnancies': pregnancies,
+    'Glucose': glucose,
+    'BloodPressure': bp,
+    'SkinThickness': skinthickness,
+    'Insulin': insulin,
+    'BMI': bmi,
+    'DiabetesPedigreeFunction': dpf,
+    'Age': age
+}
+
+user_df = pd.DataFrame(user_data, index=[0])
 
 # Data Summary
 st.markdown("<h2 style='color: #0c4b33;'>🔬 Health Data Overview</h2>", unsafe_allow_html=True)
-st.table(user_data)  # Display the input data in a table format
+st.table(user_df)  # Display the input data in a table format
 
 # Split the data
 x = df.drop(['Outcome'], axis=1)
@@ -123,7 +125,7 @@ if st.button('📊 Analyze Risk'):
     for percent in range(100):
         progress.progress(percent + 1)
     
-    prediction = rf.predict(user_data)
+    prediction = rf.predict(user_df)
     
     st.markdown("<hr>", unsafe_allow_html=True)
     st.markdown("<h2 style='color: #0c4b33;'>📋 Prediction Result</h2>", unsafe_allow_html=True)
