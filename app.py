@@ -10,51 +10,132 @@ df = pd.read_csv(r"./diabetes.csv")
 # Header with professional theme
 st.markdown("""
     <style>
+        /* General Body Styling */
         body {
-            background-color: #f5f5f5;
+            background-color: #f7f7f7; /* Soft light gray */
+            font-family: 'Arial', sans-serif;
+            color: #333333;
         }
+
+        /* Header Styling */
         .header {
             font-size: 50px;
-            font-family: 'Verdana', sans-serif;
+            font-family: 'Arial', sans-serif;
             font-weight: bold;
             text-align: center;
-            color: #0c4b33;
+            color: #2c3e50; /* Dark navy for a professional look */
             margin-bottom: 20px;
         }
+
         .sub-header {
             font-size: 22px;
-            font-family: 'Verdana', sans-serif;
-            color: #4a7c59;
+            color: #34495e; /* Slightly lighter navy */
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
+
         .highlight {
-            font-size: 18px;
-            color: #0c4b33;
+            font-size: 22px;
+            color: #16a085; /* Emerald green for highlighting results */
             font-weight: bold;
+            text-align: center;
+            background-color: #e8f8f5; /* Light green background */
+            padding: 10px;
+            border-radius: 10px;
         }
+
+        /* Section Dividers */
         hr {
             border: none;
-            border-top: 2px solid #8bc34a;
+            border-top: 2px solid #2c3e50; /* Matches header color */
+            margin: 25px 0;
+        }
+
+        /* Sidebar Styling */
+        .stSidebar {
+            background-color: #ecf0f1; /* Light gray for sidebar */
+            padding: 15px;
+            border-right: 1px solid #bdc3c7; /* Subtle gray border */
+        }
+
+        .stSidebar input, .stSidebar select, .stSidebar button {
+            border-radius: 10px;
+            border: 1px solid #bdc3c7; /* Subtle border */
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        /* Button Styles */
+        .stButton>button {
+            background-color: #2980b9; /* Rich blue */
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .stButton>button:hover {
+            background-color: #1a5276; /* Darker blue on hover */
+            transform: scale(1.05); /* Slight zoom on hover */
+        }
+
+        /* Table Styling */
+        table {
+            margin: auto;
+            border-collapse: collapse;
+            width: 90%;
+            background-color: #ffffff; /* White background for tables */
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            font-size: 16px;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9; /* Soft gray for alternate rows */
+        }
+        th {
+            background-color: #2980b9; /* Blue header */
+            color: white;
+            text-align: center;
+        }
+
+        /* Progress Bar Styling */
+        .stProgress>div>div {
+            background-color: #16a085; /* Emerald green progress bar */
+            border-radius: 10px;
+        }
+
+        /* Results Section */
+        .result-box {
+            font-size: 20px;
+            color: #2c3e50;
+            font-weight: bold;
+            text-align: center;
+            background-color: #e8f6f3; /* Soft green background */
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #95a5a6;
+            font-size: 14px;
         }
     </style>
-    <div class="header">🩺 Diabetes Risk Checker</div>
-    <div class="sub-header">Enter your health details to analyze your diabetes risk.</div>
-    <hr>
 """, unsafe_allow_html=True)
 
-# Sidebar inputs with a refined design
-st.sidebar.title("📝 Patient Information")
-st.sidebar.markdown("""
-    <style>
-        .sidebar .sidebar-content {
-            background-color: #f7f8f9;
-        }
-        .stSidebar {
-            background-color: #e1e5ea;
-        }
-    </style>
-""", unsafe_allow_html=True)
 
 st.sidebar.header("🔍 Enter Your Health Details:")
 
